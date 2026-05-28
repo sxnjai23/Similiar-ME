@@ -124,13 +124,17 @@ Everything lives in one HTML file — HTML, CSS, and JavaScript. No dependencies
 
 ## 🤝 Contributing
 
-Got a question to add? Found a bug? PRs are welcome!
+Got a question to add? Found a bug? 
+waanna pushing new concepts ?
+#PRs are welcome!
 
 ```bash
 # Fork the repo
 # Edit similar-me.html — add your question to the pythonQuestions array
 # Submit a pull request
 ```
+
+Lets Works as a Community ang Lets Grow Together
 
 Each question follows this structure:
 ```javascript
