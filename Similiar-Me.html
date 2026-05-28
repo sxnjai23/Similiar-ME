@@ -1,0 +1,1586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Similar ME — Python & Aptitude Interview Prep</title>
+<style>
+:root{
+  --bg:#0f1117;--bg2:#181b23;--bg3:#1e2130;--bg4:#252a3a;
+  --border:#2a2f45;--border2:#353c56;
+  --accent:#6c63ff;--accent2:#7c75ff;--accentg:#22c55e;
+  --accentr:#ef4444;--accenty:#f59e0b;--accentc:#06b6d4;
+  --text:#e2e8f0;--text2:#94a3b8;--text3:#64748b;
+  --card:#1a1e2e;--radius:12px;--radius-sm:8px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;min-height:100vh;}
+/* HEADER */
+.header{background:linear-gradient(135deg,#0f1117 0%,#1a1430 50%,#0f1117 100%);border-bottom:1px solid var(--border);padding:0 24px;position:sticky;top:0;z-index:100;backdrop-filter:blur(12px);}
+.header-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:60px;}
+.logo{font-size:20px;font-weight:700;background:linear-gradient(135deg,#6c63ff,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.logo span{font-size:12px;-webkit-text-fill-color:var(--text3);font-weight:400;display:block;margin-top:-2px;}
+.header-right{display:flex;align-items:center;gap:12px;}
+.github-link{display:flex;align-items:center;gap:6px;text-decoration:none;color:var(--text2);font-size:13px;border:1px solid var(--border2);border-radius:20px;padding:5px 12px;transition:all .2s;}
+.github-link:hover{border-color:var(--accent);color:var(--text);}
+.progress-badge{background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:4px 12px;font-size:12px;color:var(--accentg);}
+/* MAIN NAV */
+.main-nav{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 24px;}
+.main-nav-inner{max-width:1200px;margin:0 auto;display:flex;gap:0;}
+.main-tab{padding:14px 24px;font-size:14px;font-weight:500;cursor:pointer;border-bottom:2px solid transparent;color:var(--text3);transition:all .2s;background:none;border-top:none;border-left:none;border-right:none;}
+.main-tab:hover{color:var(--text2);}
+.main-tab.active{color:var(--accent);border-bottom-color:var(--accent);}
+/* LAYOUT */
+.page{display:none;max-width:1200px;margin:0 auto;padding:24px;}
+.page.active{display:block;}
+/* SIDEBAR LAYOUT */
+.two-col{display:grid;grid-template-columns:220px 1fr;gap:20px;align-items:start;}
+.sidebar{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:12px;position:sticky;top:90px;}
+.sidebar-title{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;padding:6px 8px 8px;}
+.cat-btn{display:flex;align-items:center;justify-content:space-between;width:100%;background:none;border:none;color:var(--text2);padding:8px 10px;border-radius:var(--radius-sm);cursor:pointer;font-size:13px;text-align:left;transition:all .15s;}
+.cat-btn:hover{background:var(--bg3);color:var(--text);}
+.cat-btn.active{background:linear-gradient(135deg,rgba(108,99,255,.2),rgba(6,182,212,.1));color:var(--accent);font-weight:500;}
+.cat-count{font-size:11px;background:var(--bg4);padding:2px 6px;border-radius:10px;color:var(--text3);}
+/* SEARCH */
+.search-bar{margin-bottom:18px;}
+.search-input{width:100%;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 14px;font-size:14px;color:var(--text);outline:none;transition:border .2s;}
+.search-input::placeholder{color:var(--text3);}
+.search-input:focus{border-color:var(--accent);}
+/* SECTION HEADER */
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.section-title{font-size:18px;font-weight:600;}
+.section-meta{font-size:13px;color:var(--text3);}
+/* QUESTION CARD */
+.q-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:12px;overflow:hidden;transition:border .2s;}
+.q-card:hover{border-color:var(--border2);}
+.q-card.done{border-color:var(--accentg);opacity:.8;}
+.q-header{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;cursor:pointer;user-select:none;}
+.q-num{font-size:11px;font-weight:700;color:var(--accent);background:rgba(108,99,255,.12);padding:3px 8px;border-radius:20px;white-space:nowrap;margin-top:1px;}
+.q-title{font-size:14px;font-weight:500;flex:1;line-height:1.5;}
+.q-actions{display:flex;align-items:center;gap:8px;margin-left:auto;}
+.done-btn{background:none;border:1px solid var(--border);border-radius:20px;padding:3px 10px;font-size:11px;color:var(--text3);cursor:pointer;transition:all .15s;white-space:nowrap;}
+.done-btn:hover{border-color:var(--accentg);color:var(--accentg);}
+.done-btn.marked{background:rgba(34,197,94,.12);border-color:var(--accentg);color:var(--accentg);}
+.chevron{color:var(--text3);font-size:16px;transition:transform .2s;flex-shrink:0;margin-top:1px;}
+.chevron.open{transform:rotate(180deg);}
+.q-body{display:none;border-top:1px solid var(--border);padding:16px;}
+.q-body.open{display:block;}
+.q-tabs{display:flex;gap:6px;margin-bottom:14px;}
+.q-tab{padding:5px 14px;font-size:12px;border-radius:20px;border:1px solid var(--border);background:none;color:var(--text3);cursor:pointer;transition:all .15s;}
+.q-tab.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+.concept-box{background:var(--bg3);border-left:3px solid var(--accentc);border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:12px 14px;font-size:13px;line-height:1.7;color:var(--text2);display:none;}
+.concept-box.show{display:block;}
+pre{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;font-size:13px;line-height:1.7;overflow-x:auto;display:none;font-family:'Cascadia Code','Fira Code',monospace;}
+pre.show{display:block;}
+.code-comment{color:#94a3b8;}
+.diff-badge{font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;margin-left:8px;}
+.diff-easy{background:rgba(34,197,94,.15);color:var(--accentg);}
+.diff-med{background:rgba(245,158,11,.15);color:var(--accenty);}
+.diff-hard{background:rgba(239,68,68,.15);color:var(--accentr);}
+/* APTITUDE */
+.apt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin-bottom:20px;}
+.apt-concept-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;cursor:pointer;transition:all .2s;}
+.apt-concept-card:hover{border-color:var(--accent);transform:translateY(-1px);}
+.apt-concept-card.active-concept{border-color:var(--accent);background:rgba(108,99,255,.06);}
+.apt-icon{font-size:28px;margin-bottom:8px;}
+.apt-concept-title{font-size:14px;font-weight:600;margin-bottom:4px;}
+.apt-concept-sub{font-size:12px;color:var(--text3);}
+.apt-concept-count{font-size:11px;color:var(--accent);margin-top:6px;}
+.apt-detail{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;display:none;}
+.apt-detail.show{display:block;}
+.apt-detail-title{font-size:16px;font-weight:600;margin-bottom:4px;}
+.apt-formula{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:12px 16px;margin:10px 0 16px;font-size:13px;color:var(--accentc);}
+.apt-q-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;margin-bottom:10px;}
+.apt-q-text{font-size:14px;margin-bottom:10px;line-height:1.5;}
+.apt-options{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px;}
+.apt-opt{padding:8px 12px;background:var(--bg4);border:1px solid var(--border);border-radius:var(--radius-sm);font-size:13px;cursor:pointer;transition:all .15s;text-align:left;}
+.apt-opt:hover{border-color:var(--border2);}
+.apt-opt.correct{background:rgba(34,197,94,.15);border-color:var(--accentg);color:var(--accentg);}
+.apt-opt.wrong{background:rgba(239,68,68,.1);border-color:var(--accentr);color:var(--accentr);}
+.apt-explain{font-size:12px;color:var(--text2);margin-top:6px;padding-top:8px;border-top:1px solid var(--border);display:none;line-height:1.6;}
+.apt-explain.show{display:block;}
+/* HOME */
+.hero{text-align:center;padding:40px 20px;}
+.hero h1{font-size:40px;font-weight:800;background:linear-gradient(135deg,#6c63ff,#06b6d4,#22c55e);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px;}
+.hero p{font-size:16px;color:var(--text2);max-width:500px;margin:0 auto 28px;}
+.stats-row{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin-bottom:32px;}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px 28px;text-align:center;}
+.stat-num{font-size:28px;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accentc));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.stat-lbl{font-size:12px;color:var(--text3);margin-top:2px;}
+.start-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+.btn-primary{padding:12px 28px;background:linear-gradient(135deg,var(--accent),var(--accentc));border:none;border-radius:var(--radius-sm);font-size:14px;font-weight:600;color:#fff;cursor:pointer;transition:opacity .2s;}
+.btn-primary:hover{opacity:.85;}
+.btn-secondary{padding:12px 28px;background:none;border:1px solid var(--border2);border-radius:var(--radius-sm);font-size:14px;font-weight:500;color:var(--text2);cursor:pointer;transition:all .2s;}
+.btn-secondary:hover{border-color:var(--accent);color:var(--text);}
+/* PROGRESS BAR */
+.overall-progress{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:20px;}
+.prog-title{font-size:13px;font-weight:500;color:var(--text2);margin-bottom:10px;}
+.prog-bar-bg{background:var(--bg4);border-radius:10px;height:8px;overflow:hidden;margin-bottom:6px;}
+.prog-bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accentg));border-radius:10px;transition:width .4s;}
+.prog-text{font-size:12px;color:var(--text3);}
+/* FOOTER */
+.footer{text-align:center;padding:24px;border-top:1px solid var(--border);margin-top:40px;}
+.footer a{color:var(--accent);text-decoration:none;}
+/* RESPONSIVE */
+@media(max-width:768px){
+  .two-col{grid-template-columns:1fr;}
+  .sidebar{position:static;}
+  .apt-grid{grid-template-columns:1fr 1fr;}
+  .hero h1{font-size:28px;}
+}
+.tag-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;}
+.tag{padding:5px 12px;border-radius:20px;font-size:12px;border:1px solid var(--border);background:none;color:var(--text3);cursor:pointer;transition:all .15s;}
+.tag:hover,.tag.active{border-color:var(--accent);color:var(--accent);background:rgba(108,99,255,.08);}
+.empty{text-align:center;padding:40px;color:var(--text3);font-size:14px;}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <div class="logo">Similar ME <span>Python & Aptitude Interview Prep</span></div>
+    <div class="header-right">
+      <span class="progress-badge" id="globalProgress">0 / 0 done</span>
+      <a class="github-link" href="https://github.com/sxnjai23" target="_blank">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+        sxnjai23
+      </a>
+    </div>
+  </div>
+</header>
+
+<nav class="main-nav">
+  <div class="main-nav-inner">
+    <button class="main-tab active" onclick="showPage('home')">🏠 Home</button>
+    <button class="main-tab" onclick="showPage('python')">🐍 Python</button>
+    <button class="main-tab" onclick="showPage('aptitude')">🧮 Aptitude</button>
+  </div>
+</nav>
+
+<!-- HOME PAGE -->
+<div class="page active" id="page-home">
+  <div class="hero">
+    <h1>Similar ME</h1>
+    <p>Practice 100+ Python coding questions + 18 Aptitude concepts. Crack any technical interview in 10 days.</p>
+    <div class="stats-row">
+      <div class="stat-card"><div class="stat-num">100+</div><div class="stat-lbl">Python Questions</div></div>
+      <div class="stat-card"><div class="stat-num">18</div><div class="stat-lbl">Aptitude Concepts</div></div>
+      <div class="stat-card"><div class="stat-num">6</div><div class="stat-lbl">Python Topics</div></div>
+      <div class="stat-card"><div class="stat-num" id="homeScore">0</div><div class="stat-lbl">Questions Done</div></div>
+    </div>
+    <div class="start-btns">
+      <button class="btn-primary" onclick="showPage('python')">Start Python Practice →</button>
+      <button class="btn-secondary" onclick="showPage('aptitude')">Practice Aptitude</button>
+    </div>
+  </div>
+  <div class="overall-progress" style="max-width:600px;margin:0 auto 20px;">
+    <div class="prog-title">Overall Progress</div>
+    <div class="prog-bar-bg"><div class="prog-bar-fill" id="homeProgressBar" style="width:0%"></div></div>
+    <div class="prog-text" id="homeProgressText">Start practicing to track your progress</div>
+  </div>
+</div>
+
+<!-- PYTHON PAGE -->
+<div class="page" id="page-python">
+  <div class="two-col">
+    <div class="sidebar">
+      <div class="sidebar-title">Topics</div>
+      <button class="cat-btn active" onclick="filterCategory('all')">📚 All Questions <span class="cat-count" id="cnt-all">0</span></button>
+      <button class="cat-btn" onclick="filterCategory('strings')">🔤 Strings <span class="cat-count" id="cnt-strings">0</span></button>
+      <button class="cat-btn" onclick="filterCategory('arrays')">📊 Arrays & Lists <span class="cat-count" id="cnt-arrays">0</span></button>
+      <button class="cat-btn" onclick="filterCategory('dicts')">🗂️ Dict & Sets <span class="cat-count" id="cnt-dicts">0</span></button>
+      <button class="cat-btn" onclick="filterCategory('loops')">🔁 Loops & Logic <span class="cat-count" id="cnt-loops">0</span></button>
+      <button class="cat-btn" onclick="filterCategory('oop')">🧩 OOP & Classes <span class="cat-count" id="cnt-oop">0</span></button>
+      <button class="cat-btn" onclick="filterCategory('ds')">🏗️ Data Structures <span class="cat-count" id="cnt-ds">0</span></button>
+      <div style="margin-top:16px;padding-top:12px;border-top:1px solid var(--border);">
+        <div class="prog-title" style="font-size:12px;">Python Progress</div>
+        <div class="prog-bar-bg"><div class="prog-bar-fill" id="pyProgressBar" style="width:0%"></div></div>
+        <div class="prog-text" id="pyProgressText">0 done</div>
+      </div>
+    </div>
+    <div>
+      <div class="search-bar"><input class="search-input" id="searchInput" placeholder="🔍  Search questions..." oninput="searchQuestions()"/></div>
+      <div class="tag-row" id="diffTags">
+        <button class="tag active" onclick="filterDiff('all',this)">All</button>
+        <button class="tag" onclick="filterDiff('easy',this)">🟢 Easy</button>
+        <button class="tag" onclick="filterDiff('medium',this)">🟡 Medium</button>
+        <button class="tag" onclick="filterDiff('hard',this)">🔴 Hard</button>
+      </div>
+      <div class="section-header">
+        <div class="section-title" id="sectionTitle">All Questions</div>
+        <div class="section-meta" id="sectionMeta"></div>
+      </div>
+      <div id="questionsContainer"></div>
+    </div>
+  </div>
+</div>
+
+<!-- APTITUDE PAGE -->
+<div class="page" id="page-aptitude">
+  <div class="section-header" style="margin-bottom:20px;">
+    <div>
+      <div class="section-title">Aptitude Mastery</div>
+      <div class="section-meta" style="margin-top:4px;">18 concepts | Click a concept to see theory + practice questions</div>
+    </div>
+    <button class="btn-secondary" onclick="showAptGrid()" style="font-size:13px;padding:8px 16px;">← Back to Concepts</button>
+  </div>
+  <div class="apt-grid" id="aptGrid"></div>
+  <div class="apt-detail" id="aptDetail"></div>
+</div>
+
+<footer class="footer">
+  <p style="color:var(--text3);font-size:13px;">Created by <strong style="color:var(--text)">Sanjai</strong> · <a href="https://github.com/sxnjai23" target="_blank">GitHub @sxnjai23</a> · Similar ME — Crack every interview 🚀</p>
+</footer>
+
+<script>
+// ==================== DATA ====================
+const pythonQuestions = [
+// ---- STRINGS ----
+{id:1,cat:'strings',diff:'easy',title:'Reverse a string without using slicing',
+code:`def reverse_string(s):
+    result = ""
+    for i in range(len(s)-1, -1, -1):
+        result += s[i]
+    return result
+
+print(reverse_string("hello"))  # "olleh"`,
+concept:`A string is IMMUTABLE in Python — you can't change characters in place.
+To reverse, we loop from the last index (len-1) down to 0 using range().
+range(start, stop, step): range(len-1, -1, -1) means: start at end, stop before -1, step -1.
+Shortcut you can use after understanding: s[::-1] — slice with step -1.`},
+
+{id:2,cat:'strings',diff:'easy',title:'Check if a string is a palindrome',
+code:`def is_palindrome(s):
+    s = s.lower().replace(" ", "")
+    left, right = 0, len(s) - 1
+    while left < right:
+        if s[left] != s[right]:
+            return False
+        left += 1
+        right -= 1
+    return True
+
+print(is_palindrome("racecar"))   # True
+print(is_palindrome("hello"))     # False`,
+concept:`Two-pointer technique: one pointer starts at left, one at right.
+If any pair doesn't match → not a palindrome.
+If all pairs match → it is a palindrome.
+We lowercase and remove spaces to handle "A man a plan a canal Panama" type inputs.`},
+
+{id:3,cat:'strings',diff:'easy',title:'Count vowels in a string',
+code:`def count_vowels(s):
+    vowels = "aeiouAEIOU"
+    count = 0
+    for ch in s:
+        if ch in vowels:
+            count += 1
+    return count
+
+print(count_vowels("Interview"))  # 4`,
+concept:`We iterate character by character using for ch in s.
+The 'in' operator checks membership in a string/list in O(n), but since vowels is only 10 chars it's effectively O(1).
+Alternative: sum(1 for ch in s if ch in vowels) — list comprehension style.`},
+
+{id:4,cat:'strings',diff:'easy',title:'Find the most frequent character',
+code:`def most_frequent(s):
+    freq = {}
+    for ch in s:
+        freq[ch] = freq.get(ch, 0) + 1
+    return max(freq, key=freq.get)
+
+print(most_frequent("banana"))  # 'a'`,
+concept:`dict.get(key, default) returns the value if key exists, otherwise returns default (0 here).
+max() on a dict with key=dict.get returns the key with highest value.
+This builds a frequency map — one of the most used patterns in all of coding.`},
+
+{id:5,cat:'strings',diff:'easy',title:'Remove duplicate characters from a string',
+code:`def remove_duplicates(s):
+    seen = set()
+    result = ""
+    for ch in s:
+        if ch not in seen:
+            result += ch
+            seen.add(ch)
+    return result
+
+print(remove_duplicates("programming"))  # "progamin"`,
+concept:`A set stores unique values with O(1) lookup.
+We track 'seen' characters and only add new ones to result.
+Order is preserved because we loop left to right.`},
+
+{id:6,cat:'strings',diff:'medium',title:'Check if two strings are anagrams',
+code:`def is_anagram(s1, s2):
+    if len(s1) != len(s2):
+        return False
+    freq = {}
+    for ch in s1:
+        freq[ch] = freq.get(ch, 0) + 1
+    for ch in s2:
+        freq[ch] = freq.get(ch, 0) - 1
+        if freq[ch] < 0:
+            return False
+    return True
+
+print(is_anagram("listen", "silent"))  # True`,
+concept:`Anagram: same characters, same frequencies, different arrangement.
+Step 1: Count all chars in s1 (+1 each).
+Step 2: Subtract for each char in s2. If any goes negative, s2 has a char s1 doesn't — not anagram.
+Shortcut: sorted(s1) == sorted(s2) — but O(n log n). Dict approach is O(n).`},
+
+{id:7,cat:'strings',diff:'medium',title:'Find the longest word in a sentence',
+code:`def longest_word(sentence):
+    words = sentence.split()
+    longest = ""
+    for word in words:
+        if len(word) > len(longest):
+            longest = word
+    return longest
+
+print(longest_word("Python is an amazing language"))  # "language"`,
+concept:`str.split() splits on whitespace by default, returning a list of words.
+We iterate and track the longest seen so far.
+Alternative: max(sentence.split(), key=len) — one liner using max with key.`},
+
+{id:8,cat:'strings',diff:'medium',title:'Count words in a string',
+code:`def word_count(sentence):
+    words = sentence.split()
+    freq = {}
+    for word in words:
+        word = word.lower()
+        freq[word] = freq.get(word, 0) + 1
+    return freq
+
+print(word_count("to be or not to be"))
+# {'to':2, 'be':2, 'or':1, 'not':1}`,
+concept:`split() creates a list. We iterate to build a frequency dictionary.
+.lower() ensures 'To' and 'to' are counted as same word.
+This frequency map pattern shows up in 60%+ of string problems.`},
+
+{id:9,cat:'strings',diff:'medium',title:'Reverse words in a sentence',
+code:`def reverse_words(sentence):
+    words = sentence.split()
+    left, right = 0, len(words) - 1
+    while left < right:
+        words[left], words[right] = words[right], words[left]
+        left += 1
+        right -= 1
+    return " ".join(words)
+
+print(reverse_words("Hello World Python"))
+# "Python World Hello"`,
+concept:`Split into list of words, then apply two-pointer reversal on the list.
+Python tuple swap: a, b = b, a — no temp variable needed.
+" ".join(list) reassembles words with space between them.`},
+
+{id:10,cat:'strings',diff:'medium',title:'Find all substrings of a string',
+code:`def all_substrings(s):
+    result = []
+    n = len(s)
+    for i in range(n):
+        for j in range(i+1, n+1):
+            result.append(s[i:j])
+    return result
+
+print(all_substrings("abc"))
+# ['a','ab','abc','b','bc','c']`,
+concept:`Two nested loops: i = start index, j = end index.
+s[i:j] is a slice — gives characters from index i up to (not including) j.
+Time complexity: O(n²) substrings for a string of length n.`},
+
+{id:11,cat:'strings',diff:'hard',title:'Longest substring without repeating characters',
+code:`def length_of_longest(s):
+    seen = {}
+    left = 0
+    max_len = 0
+    for right in range(len(s)):
+        if s[right] in seen and seen[s[right]] >= left:
+            left = seen[s[right]] + 1
+        seen[s[right]] = right
+        max_len = max(max_len, right - left + 1)
+    return max_len
+
+print(length_of_longest("abcabcbb"))  # 3 ("abc")`,
+concept:`Sliding Window technique: two pointers (left, right) define a window.
+We store last seen index of each character in a dict.
+When we see a repeated char inside our window, we move left pointer past the previous occurrence.
+Window size = right - left + 1. Track maximum.`},
+
+{id:12,cat:'strings',diff:'hard',title:'Check if string has balanced brackets',
+code:`def is_balanced(s):
+    stack = []
+    pairs = {')':'(', ']':'[', '}':'{'}
+    for ch in s:
+        if ch in '([{':
+            stack.append(ch)
+        elif ch in ')]}':
+            if not stack or stack[-1] != pairs[ch]:
+                return False
+            stack.pop()
+    return len(stack) == 0
+
+print(is_balanced("({[]})"))  # True
+print(is_balanced("({)}"))    # False`,
+concept:`Stack is perfect for matching pairs — LIFO (Last In First Out).
+When we see an opener, push to stack.
+When we see a closer, check if top of stack is matching opener.
+If stack is empty at end → all brackets matched.`},
+
+{id:13,cat:'strings',diff:'easy',title:'Convert string to uppercase without built-in',
+code:`def to_upper(s):
+    result = ""
+    for ch in s:
+        if 'a' <= ch <= 'z':
+            result += chr(ord(ch) - 32)
+        else:
+            result += ch
+    return result
+
+print(to_upper("hello world"))  # "HELLO WORLD"`,
+concept:`ord(ch) gives ASCII value. 'a'=97, 'A'=65. Difference is exactly 32.
+So subtracting 32 from lowercase gives uppercase.
+chr() converts ASCII number back to character.`},
+
+{id:14,cat:'strings',diff:'medium',title:'Find first non-repeating character',
+code:`def first_non_repeat(s):
+    freq = {}
+    for ch in s:
+        freq[ch] = freq.get(ch, 0) + 1
+    for ch in s:
+        if freq[ch] == 1:
+            return ch
+    return None
+
+print(first_non_repeat("aabbcde"))  # 'c'`,
+concept:`Two passes: first build frequency map, then find first char with count 1.
+Important: second loop is over s (not freq) to preserve original order.
+Dicts in Python 3.7+ are ordered by insertion.`},
+
+{id:15,cat:'strings',diff:'medium',title:'Caesar cipher — shift characters by N',
+code:`def caesar_cipher(text, shift):
+    result = ""
+    for ch in text:
+        if ch.isalpha():
+            base = ord('A') if ch.isupper() else ord('a')
+            result += chr((ord(ch) - base + shift) % 26 + base)
+        else:
+            result += ch
+    return result
+
+print(caesar_cipher("Hello", 3))  # "Khoor"`,
+concept:`% 26 handles wrapping: 'z' shifted by 1 becomes 'a'.
+We normalize to 0-25 range by subtracting base, add shift, mod 26, add base back.
+isalpha() skips spaces/punctuation. isupper() handles case.`},
+
+// ---- ARRAYS ----
+{id:16,cat:'arrays',diff:'easy',title:'Find maximum element in a list without max()',
+code:`def find_max(lst):
+    if not lst:
+        return None
+    maximum = lst[0]
+    for num in lst:
+        if num > maximum:
+            maximum = num
+    return maximum
+
+print(find_max([3, 7, 1, 9, 4]))  # 9`,
+concept:`Initialize max with first element (not 0 — list might have all negatives).
+Then compare each element. Simple single-pass O(n) solution.
+In interviews: always handle the empty list edge case!`},
+
+{id:17,cat:'arrays',diff:'easy',title:'Find second largest element',
+code:`def second_largest(lst):
+    first = second = float('-inf')
+    for num in lst:
+        if num > first:
+            second = first
+            first = num
+        elif num > second and num != first:
+            second = num
+    return second
+
+print(second_largest([3, 7, 1, 9, 4]))  # 7`,
+concept:`Track two variables: first (largest) and second.
+float('-inf') means negative infinity — any number will be larger.
+When we find a new max, old max becomes second largest.
+Handles duplicates with the num != first check.`},
+
+{id:18,cat:'arrays',diff:'easy',title:'Remove duplicates from a list (keep order)',
+code:`def remove_dups(lst):
+    seen = set()
+    result = []
+    for num in lst:
+        if num not in seen:
+            result.append(num)
+            seen.add(num)
+    return result
+
+print(remove_dups([1,2,2,3,4,3,5]))  # [1,2,3,4,5]`,
+concept:`Set gives O(1) membership check. List preserves order.
+We use both together: set to track seen, list to store result in order.
+Simply list(set(lst)) would lose order — don't do that in interviews.`},
+
+{id:19,cat:'arrays',diff:'easy',title:'Rotate a list by K positions',
+code:`def rotate(lst, k):
+    n = len(lst)
+    k = k % n  # handles k > n
+    return lst[k:] + lst[:k]
+
+# With loop (manual):
+def rotate_manual(lst, k):
+    n = len(lst)
+    k = k % n
+    result = [0] * n
+    for i in range(n):
+        result[(i + k) % n] = lst[i]
+    return result
+
+print(rotate([1,2,3,4,5], 2))  # [3,4,5,1,2]`,
+concept:`Rotation by k means: take from index k to end, then prepend beginning.
+k % n handles cases where k is larger than list length.
+List concatenation with + creates a new list — O(n).`},
+
+{id:20,cat:'arrays',diff:'medium',title:'Two Sum — find pair that adds to target',
+code:`def two_sum(nums, target):
+    seen = {}  # value -> index
+    for i, num in enumerate(nums):
+        complement = target - num
+        if complement in seen:
+            return [seen[complement], i]
+        seen[num] = i
+    return []
+
+print(two_sum([2, 7, 11, 15], 9))  # [0, 1]`,
+concept:`For each number, we ask: "what do I need to pair with this to reach target?"
+That needed value = target - current number (the complement).
+We store each number in a hashmap so we can check complement in O(1).
+Brute force O(n²) → Hash map O(n). This is THE most famous optimization pattern.`},
+
+{id:21,cat:'arrays',diff:'medium',title:'Find missing number in 1 to N',
+code:`def missing_number(nums):
+    n = len(nums)  # array has n elements, should have n+1
+    expected_sum = n * (n + 1) // 2
+    return expected_sum - sum(nums)
+
+print(missing_number([1,2,4,5,6]))  # 3`,
+concept:`Math formula: sum of 1 to n = n*(n+1)/2.
+If one number is missing, actual sum will be less by exactly that number.
+Missing = expected_sum - actual_sum. No loops needed! O(n) for sum().`},
+
+{id:22,cat:'arrays',diff:'medium',title:'Move all zeros to end (maintain order)',
+code:`def move_zeros(lst):
+    pos = 0  # position to place next non-zero
+    for i in range(len(lst)):
+        if lst[i] != 0:
+            lst[pos] = lst[i]
+            pos += 1
+    while pos < len(lst):
+        lst[pos] = 0
+        pos += 1
+    return lst
+
+print(move_zeros([0,1,0,3,12]))  # [1,3,12,0,0]`,
+concept:`Two-pointer variant: pos tracks where to write next non-zero element.
+First pass: move all non-zeros to front in order.
+Second pass: fill rest with zeros.
+In-place solution — doesn't use extra space.`},
+
+{id:23,cat:'arrays',diff:'medium',title:'Find all pairs with given sum',
+code:`def find_pairs(lst, target):
+    seen = set()
+    pairs = []
+    for num in lst:
+        complement = target - num
+        if complement in seen:
+            pairs.append((complement, num))
+        seen.add(num)
+    return pairs
+
+print(find_pairs([1,5,3,7,9,2,6], 8))
+# [(1,7),(5,3),(2,6)]`,
+concept:`Similar to two-sum but collects all pairs.
+We use a set here (not dict) because we only care about values, not indices.
+As we scan, if complement is already seen → valid pair found.`},
+
+{id:24,cat:'arrays',diff:'medium',title:'Maximum subarray sum (Kadane\'s Algorithm)',
+code:`def max_subarray(nums):
+    max_sum = nums[0]
+    current_sum = nums[0]
+    for num in nums[1:]:
+        current_sum = max(num, current_sum + num)
+        max_sum = max(max_sum, current_sum)
+    return max_sum
+
+print(max_subarray([-2,1,-3,4,-1,2,1,-5,4]))  # 6`,
+concept:`Kadane's: at each step, decide: start fresh or extend current subarray?
+If current_sum + num < num itself, restart from num.
+max_sum tracks the global best.
+This is O(n) — one of the most elegant algorithms. Must know for interviews!`},
+
+{id:25,cat:'arrays',diff:'hard',title:'Merge two sorted arrays',
+code:`def merge_sorted(a, b):
+    result = []
+    i = j = 0
+    while i < len(a) and j < len(b):
+        if a[i] <= b[j]:
+            result.append(a[i]); i += 1
+        else:
+            result.append(b[j]); j += 1
+    result.extend(a[i:])
+    result.extend(b[j:])
+    return result
+
+print(merge_sorted([1,3,5],[2,4,6]))
+# [1,2,3,4,5,6]`,
+concept:`Two pointers, one in each array. Always pick the smaller element.
+When one array is exhausted, extend with remaining elements of the other.
+This is the key step of Merge Sort. O(n+m) time.`},
+
+{id:26,cat:'arrays',diff:'easy',title:'Check if list is sorted',
+code:`def is_sorted(lst):
+    for i in range(len(lst)-1):
+        if lst[i] > lst[i+1]:
+            return False
+    return True
+
+print(is_sorted([1,2,3,4,5]))  # True
+print(is_sorted([1,3,2,4]))    # False`,
+concept:`Compare adjacent elements. If any pair is out of order → not sorted.
+range(len-1) stops at second-to-last index so lst[i+1] doesn't go out of bounds.`},
+
+{id:27,cat:'arrays',diff:'medium',title:'Flatten a nested list',
+code:`def flatten(lst):
+    result = []
+    for item in lst:
+        if isinstance(item, list):
+            result.extend(flatten(item))
+        else:
+            result.append(item)
+    return result
+
+print(flatten([1,[2,[3,4]],5]))  # [1,2,3,4,5]`,
+concept:`Recursion: if item is a list, recursively flatten it. Otherwise append directly.
+isinstance(item, list) checks the type.
+extend() adds all elements of a list; append() adds the list as one element.`},
+
+{id:28,cat:'arrays',diff:'hard',title:'Find duplicates in array in O(n)',
+code:`def find_duplicates(nums):
+    seen = set()
+    duplicates = []
+    for num in nums:
+        if num in seen:
+            duplicates.append(num)
+        else:
+            seen.add(num)
+    return list(set(duplicates))  # unique dupes
+
+print(find_duplicates([4,3,2,7,8,2,3,1]))
+# [2, 3]`,
+concept:`Set lookup is O(1). If we see a number already in seen → it's a duplicate.
+set(duplicates) at end ensures we don't report same duplicate twice.
+Overall O(n) time, O(n) space.`},
+
+// ---- DICTS & SETS ----
+{id:29,cat:'dicts',diff:'easy',title:'Count character frequency using a dictionary',
+code:`def char_freq(s):
+    freq = {}
+    for ch in s:
+        freq[ch] = freq.get(ch, 0) + 1
+    return freq
+
+print(char_freq("banana"))
+# {'b':1, 'a':3, 'n':2}`,
+concept:`dict.get(key, default): returns value if key exists, otherwise returns default.
+This avoids KeyError when key doesn't exist yet.
+This is the most fundamental dictionary pattern — learn it cold.`},
+
+{id:30,cat:'dicts',diff:'easy',title:'Merge two dictionaries',
+code:`def merge_dicts(d1, d2):
+    merged = {}
+    for k, v in d1.items():
+        merged[k] = v
+    for k, v in d2.items():
+        merged[k] = v  # d2 overwrites d1 on conflict
+    return merged
+
+# Python 3.9+ one-liner:
+# merged = d1 | d2
+
+print(merge_dicts({'a':1,'b':2}, {'b':3,'c':4}))
+# {'a':1,'b':3,'c':4}`,
+concept:`.items() returns (key, value) pairs you can unpack in for loop.
+d2 values overwrite d1 values for same keys.
+Modern Python: dict1 | dict2 or {**d1, **d2}.`},
+
+{id:31,cat:'dicts',diff:'medium',title:'Group words by their length',
+code:`def group_by_length(words):
+    groups = {}
+    for word in words:
+        length = len(word)
+        if length not in groups:
+            groups[length] = []
+        groups[length].append(word)
+    return groups
+
+words = ["cat","dog","elephant","ant","bee"]
+print(group_by_length(words))
+# {3:['cat','dog','ant','bee'], 8:['elephant']}`,
+concept:`Pattern: group things by some property.
+Use the property as key, value is a list of items with that property.
+dict.setdefault(key, []).append(val) is a clean alternative.`},
+
+{id:32,cat:'dicts',diff:'medium',title:'Find common elements in two lists using sets',
+code:`def common_elements(a, b):
+    set_a = set(a)
+    set_b = set(b)
+    return list(set_a & set_b)  # intersection
+
+print(common_elements([1,2,3,4],[3,4,5,6]))
+# [3, 4]`,
+concept:`Set intersection (&) gives elements in both sets.
+Converting lists to sets first enables O(1) per-element lookup.
+set_a - set_b = elements in a but not b (difference).
+set_a | set_b = all elements combined (union).`},
+
+{id:33,cat:'dicts',diff:'medium',title:'Invert a dictionary (swap keys and values)',
+code:`def invert_dict(d):
+    inverted = {}
+    for key, val in d.items():
+        inverted[val] = key
+    return inverted
+
+# One-liner:
+# inverted = {v: k for k, v in d.items()}
+
+print(invert_dict({'a':1,'b':2,'c':3}))
+# {1:'a', 2:'b', 3:'c'}`,
+concept:`We swap key→val to val→key. Works cleanly only if values are unique.
+Dict comprehension {v:k for k,v in d.items()} is the Pythonic way.
+In interviews, mention the edge case: duplicate values would overwrite.`},
+
+{id:34,cat:'dicts',diff:'hard',title:'Find top K frequent elements',
+code:`def top_k_frequent(nums, k):
+    freq = {}
+    for num in nums:
+        freq[num] = freq.get(num, 0) + 1
+    sorted_items = sorted(freq.items(), key=lambda x: x[1], reverse=True)
+    return [item[0] for item in sorted_items[:k]]
+
+print(top_k_frequent([1,1,1,2,2,3], 2))  # [1, 2]`,
+concept:`Step 1: Build frequency map.
+Step 2: Sort by frequency (value) in descending order.
+sorted() with key=lambda x: x[1] sorts by the second element of each tuple.
+Return first k items from sorted list.`},
+
+// ---- LOOPS ----
+{id:35,cat:'loops',diff:'easy',title:'Print multiplication table using loops',
+code:`def multiply_table(n):
+    for i in range(1, 11):
+        print(f"{n} x {i} = {n*i}")
+
+multiply_table(5)`,
+concept:`f-strings (f"...") let you embed variables with {variable}.
+range(1, 11) gives 1 through 10 inclusive.
+This is a basic loop pattern: do something N times with range().`},
+
+{id:36,cat:'loops',diff:'easy',title:'Sum of digits of a number',
+code:`def sum_of_digits(n):
+    total = 0
+    while n > 0:
+        total += n % 10   # last digit
+        n //= 10          # remove last digit
+    return total
+
+print(sum_of_digits(12345))  # 15`,
+concept:`n % 10 gives the last digit. n // 10 removes the last digit.
+We keep stripping digits until n becomes 0.
+% is modulo (remainder). // is integer division (floor division).`},
+
+{id:37,cat:'loops',diff:'easy',title:'Check if a number is prime',
+code:`def is_prime(n):
+    if n < 2:
+        return False
+    for i in range(2, int(n**0.5) + 1):
+        if n % i == 0:
+            return False
+    return True
+
+print(is_prime(17))  # True
+print(is_prime(12))  # False`,
+concept:`If n has a factor, one of them must be ≤ √n.
+So we only check up to square root — O(√n) instead of O(n).
+n**0.5 is square root. int() truncates to integer. +1 makes range inclusive.`},
+
+{id:38,cat:'loops',diff:'medium',title:'Fibonacci sequence up to N terms',
+code:`def fibonacci(n):
+    if n <= 0: return []
+    if n == 1: return [0]
+    fib = [0, 1]
+    for i in range(2, n):
+        fib.append(fib[i-1] + fib[i-2])
+    return fib
+
+print(fibonacci(8))  # [0,1,1,2,3,5,8,13]`,
+concept:`Each Fibonacci number = sum of previous two.
+We store the full sequence and keep appending.
+fib[-1] + fib[-2] also works — negative indexing accesses from end.`},
+
+{id:39,cat:'loops',diff:'medium',title:'Find factorial with and without recursion',
+code:`# Iterative
+def factorial(n):
+    result = 1
+    for i in range(2, n+1):
+        result *= i
+    return result
+
+# Recursive
+def factorial_rec(n):
+    if n <= 1:
+        return 1
+    return n * factorial_rec(n - 1)
+
+print(factorial(5))      # 120
+print(factorial_rec(5))  # 120`,
+concept:`Iterative: multiply from 2 to n.
+Recursive: base case is n=0 or n=1 (return 1). Otherwise n * f(n-1).
+Recursion must ALWAYS have a base case or it runs forever (RecursionError).`},
+
+{id:40,cat:'loops',diff:'medium',title:'Pattern printing — right triangle of stars',
+code:`def print_triangle(n):
+    for i in range(1, n+1):
+        print('*' * i)
+
+# Output for n=4:
+# *
+# **
+# ***
+# ****
+
+def print_pyramid(n):
+    for i in range(1, n+1):
+        spaces = ' ' * (n - i)
+        stars = '*' * (2*i - 1)
+        print(spaces + stars)`,
+concept:`String multiplication: '*' * 3 gives '***'.
+For pyramid: spaces = n-i, stars = 2*i-1 (always odd numbers 1,3,5...).
+Pattern problems test your ability to map visual positions to formulas.`},
+
+{id:41,cat:'loops',diff:'hard',title:'Binary search implementation',
+code:`def binary_search(arr, target):
+    left, right = 0, len(arr) - 1
+    while left <= right:
+        mid = left + (right - left) // 2
+        if arr[mid] == target:
+            return mid
+        elif arr[mid] < target:
+            left = mid + 1
+        else:
+            right = mid - 1
+    return -1
+
+print(binary_search([1,3,5,7,9,11], 7))  # 3`,
+concept:`Binary search only works on SORTED arrays.
+We halve the search space each step → O(log n).
+mid = left + (right - left)//2 avoids integer overflow vs (left+right)//2.
+Each iteration: if mid too small, search right half. If too big, search left half.`},
+
+{id:42,cat:'loops',diff:'hard',title:'Bubble sort implementation',
+code:`def bubble_sort(lst):
+    n = len(lst)
+    for i in range(n):
+        swapped = False
+        for j in range(0, n-i-1):
+            if lst[j] > lst[j+1]:
+                lst[j], lst[j+1] = lst[j+1], lst[j]
+                swapped = True
+        if not swapped:
+            break  # already sorted
+    return lst
+
+print(bubble_sort([64,34,25,12,22]))
+# [12, 22, 25, 34, 64]`,
+concept:`Compare adjacent pairs and swap if out of order. Repeat n times.
+After each pass, the largest unsorted element bubbles to its correct position.
+swapped flag optimizes: if no swaps in a pass → already sorted, exit early.
+O(n²) worst case, O(n) best case (already sorted).`},
+
+// ---- OOP ----
+{id:43,cat:'oop',diff:'easy',title:'Create a class with __init__, attributes, methods',
+code:`class Animal:
+    def __init__(self, name, sound):
+        self.name = name    # instance attribute
+        self.sound = sound
+
+    def speak(self):
+        return f"{self.name} says {self.sound}"
+
+    def __str__(self):
+        return f"Animal({self.name})"
+
+dog = Animal("Dog", "Woof")
+cat = Animal("Cat", "Meow")
+print(dog.speak())  # "Dog says Woof"
+print(cat)          # "Animal(Cat)"`,
+concept:`__init__ is the constructor — called when you create an object.
+self refers to the current instance (the actual object being created/used).
+__str__ defines what print(object) shows — called a "magic method" or "dunder".
+self.name = name stores it on the specific object (instance attribute).`},
+
+{id:44,cat:'oop',diff:'medium',title:'Class inheritance — extend a parent class',
+code:`class Vehicle:
+    def __init__(self, brand, speed):
+        self.brand = brand
+        self.speed = speed
+
+    def describe(self):
+        return f"{self.brand} at {self.speed}km/h"
+
+class Car(Vehicle):  # inherits from Vehicle
+    def __init__(self, brand, speed, doors):
+        super().__init__(brand, speed)  # call parent init
+        self.doors = doors
+
+    def describe(self):  # override parent method
+        base = super().describe()
+        return f"{base}, {self.doors} doors"
+
+car = Car("Toyota", 120, 4)
+print(car.describe())`,
+concept:`Inheritance: Car gets all attributes/methods of Vehicle for free.
+super() calls the parent class — used in __init__ to avoid rewriting parent logic.
+Method overriding: Car.describe() replaces Vehicle.describe() for Car objects.
+super().describe() still lets us use the parent version.`},
+
+{id:45,cat:'oop',diff:'medium',title:'Static methods and class methods',
+code:`class MathHelper:
+    pi = 3.14159  # class attribute (shared by all instances)
+
+    @staticmethod
+    def add(a, b):
+        return a + b  # no self needed
+
+    @classmethod
+    def circle_area(cls, radius):
+        return cls.pi * radius * radius  # cls = the class itself
+
+print(MathHelper.add(3, 4))         # 7
+print(MathHelper.circle_area(5))    # 78.5`,
+concept:`@staticmethod: utility function inside a class. No self, no cls. Just a function.
+@classmethod: first arg is cls (the class itself, not an instance). Used to access class attributes.
+Class attribute (like pi): shared across ALL instances. Instance attribute: belongs to one object.`},
+
+{id:46,cat:'oop',diff:'medium',title:'Encapsulation — private attributes and getters',
+code:`class BankAccount:
+    def __init__(self, balance):
+        self.__balance = balance  # private (name mangling)
+
+    def deposit(self, amount):
+        if amount > 0:
+            self.__balance += amount
+
+    def withdraw(self, amount):
+        if 0 < amount <= self.__balance:
+            self.__balance -= amount
+        else:
+            print("Insufficient funds")
+
+    def get_balance(self):
+        return self.__balance  # controlled access
+
+acc = BankAccount(1000)
+acc.deposit(500)
+print(acc.get_balance())  # 1500`,
+concept:`__balance (double underscore): Python name-mangles it to _BankAccount__balance.
+This makes direct access harder (not impossible). It's a convention, not true private.
+Encapsulation: hide internal data, expose only through methods you control.
+Real-world use: validation inside deposit/withdraw prevents invalid states.`},
+
+{id:47,cat:'oop',diff:'hard',title:'Polymorphism — same method, different behavior',
+code:`class Shape:
+    def area(self):
+        raise NotImplementedError("Subclass must implement area()")
+
+class Circle(Shape):
+    def __init__(self, r): self.r = r
+    def area(self): return 3.14 * self.r ** 2
+
+class Rectangle(Shape):
+    def __init__(self, w, h): self.w = w; self.h = h
+    def area(self): return self.w * self.h
+
+shapes = [Circle(5), Rectangle(3, 4), Circle(2)]
+for shape in shapes:
+    print(f"Area: {shape.area()}")`,
+concept:`Polymorphism: the same method name (area) does different things for different classes.
+This is the power of inheritance + overriding.
+raise NotImplementedError forces subclasses to implement the method — acts like an interface/abstract class.
+You can loop through mixed types and call the same method — Python handles the dispatch.`},
+
+{id:48,cat:'oop',diff:'medium',title:'Magic methods — __len__, __add__, __eq__',
+code:`class Vector:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def __add__(self, other):
+        return Vector(self.x+other.x, self.y+other.y)
+
+    def __eq__(self, other):
+        return self.x==other.x and self.y==other.y
+
+    def __repr__(self):
+        return f"Vector({self.x}, {self.y})"
+
+v1 = Vector(1, 2)
+v2 = Vector(3, 4)
+print(v1 + v2)       # Vector(4, 6)
+print(v1 == v1)      # True`,
+concept:`Magic methods (__dunder__) let your class work with Python operators.
+__add__ → v1 + v2, __eq__ → v1 == v2, __len__ → len(obj), __str__ → print(obj).
+__repr__ is for developer representation (shown in terminal).
+This is how built-in types like int, str, list are actually implemented in Python.`},
+
+// ---- DATA STRUCTURES ----
+{id:49,cat:'ds',diff:'medium',title:'Implement a Stack using a list',
+code:`class Stack:
+    def __init__(self):
+        self.data = []
+
+    def push(self, item):
+        self.data.append(item)
+
+    def pop(self):
+        if self.is_empty():
+            return None
+        return self.data.pop()
+
+    def peek(self):
+        return self.data[-1] if self.data else None
+
+    def is_empty(self):
+        return len(self.data) == 0
+
+s = Stack()
+s.push(1); s.push(2); s.push(3)
+print(s.pop())   # 3  (LIFO)
+print(s.peek())  # 2`,
+concept:`Stack = LIFO (Last In, First Out). Like a stack of plates.
+list.append() adds to end (push). list.pop() removes from end (pop). Both O(1).
+Peek looks at top without removing.
+Use cases: undo/redo, brackets matching, function call stack, DFS.`},
+
+{id:50,cat:'ds',diff:'medium',title:'Implement a Queue using collections.deque',
+code:`from collections import deque
+
+class Queue:
+    def __init__(self):
+        self.data = deque()
+
+    def enqueue(self, item):
+        self.data.append(item)       # add to right
+
+    def dequeue(self):
+        if self.is_empty():
+            return None
+        return self.data.popleft()   # remove from left O(1)
+
+    def is_empty(self):
+        return len(self.data) == 0
+
+q = Queue()
+q.enqueue("a"); q.enqueue("b"); q.enqueue("c")
+print(q.dequeue())  # "a"  (FIFO)`,
+concept:`Queue = FIFO (First In, First Out). Like a real queue/line.
+Why deque? list.pop(0) is O(n) — it shifts all elements.
+deque.popleft() is O(1) — designed for this purpose.
+Use cases: BFS, task scheduling, print queue.`},
+
+{id:51,cat:'ds',diff:'hard',title:'Implement a linked list',
+code:`class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None  # pointer to next node
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def append(self, data):
+        new_node = Node(data)
+        if not self.head:
+            self.head = new_node
+            return
+        current = self.head
+        while current.next:
+            current = current.next
+        current.next = new_node
+
+    def print_list(self):
+        current = self.head
+        while current:
+            print(current.data, end=" -> ")
+            current = current.next
+        print("None")
+
+ll = LinkedList()
+ll.append(1); ll.append(2); ll.append(3)
+ll.print_list()  # 1 -> 2 -> 3 -> None`,
+concept:`Linked list: each Node holds data + a reference (pointer) to next node.
+head is the entry point. To traverse: follow .next until None.
+Linked list excels at insert/delete at head O(1) vs array O(n).
+But random access (lst[i]) is O(n) vs array O(1) — tradeoffs!`},
+
+{id:52,cat:'ds',diff:'hard',title:'Binary tree — insert and inorder traversal',
+code:`class TreeNode:
+    def __init__(self, val):
+        self.val = val
+        self.left = None
+        self.right = None
+
+class BST:
+    def __init__(self):
+        self.root = None
+
+    def insert(self, val):
+        self.root = self._insert(self.root, val)
+
+    def _insert(self, node, val):
+        if not node:
+            return TreeNode(val)
+        if val < node.val:
+            node.left = self._insert(node.left, val)
+        else:
+            node.right = self._insert(node.right, val)
+        return node
+
+    def inorder(self, node, result=[]):
+        if node:
+            self.inorder(node.left, result)
+            result.append(node.val)
+            self.inorder(node.right, result)
+        return result
+
+bst = BST()
+for v in [5,3,7,1,4]: bst.insert(v)
+print(bst.inorder(bst.root, []))  # [1,3,4,5,7]`,
+concept:`BST property: left < root < right.
+Inorder traversal (Left → Root → Right) gives sorted output!
+Recursion is natural for trees: process left subtree, then node, then right subtree.
+Height of balanced BST = O(log n). Search/insert = O(log n) avg, O(n) worst.`},
+
+{id:53,cat:'ds',diff:'hard',title:'Graph BFS — level order traversal',
+code:`from collections import deque
+
+def bfs(graph, start):
+    visited = set()
+    queue = deque([start])
+    visited.add(start)
+    order = []
+    while queue:
+        node = queue.popleft()
+        order.append(node)
+        for neighbor in graph[node]:
+            if neighbor not in visited:
+                visited.add(neighbor)
+                queue.append(neighbor)
+    return order
+
+graph = {0:[1,2], 1:[3,4], 2:[5], 3:[], 4:[], 5:[]}
+print(bfs(graph, 0))  # [0,1,2,3,4,5]`,
+concept:`BFS: visit all neighbors before going deeper. Uses a QUEUE.
+visited set prevents revisiting and infinite loops in cyclic graphs.
+Graph stored as adjacency list: dict where key=node, value=list of neighbors.
+Use BFS for: shortest path, level-order traversal, nearest neighbor.`},
+
+{id:54,cat:'ds',diff:'hard',title:'Graph DFS — depth first search',
+code:`def dfs(graph, node, visited=None):
+    if visited is None:
+        visited = set()
+    visited.add(node)
+    order = [node]
+    for neighbor in graph[node]:
+        if neighbor not in visited:
+            order.extend(dfs(graph, neighbor, visited))
+    return order
+
+graph = {0:[1,2], 1:[3,4], 2:[5], 3:[], 4:[], 5:[]}
+print(dfs(graph, 0))  # [0,1,3,4,2,5]`,
+concept:`DFS: go as deep as possible before backtracking. Uses RECURSION (or STACK).
+visited=None default then set inside is important — mutable defaults are shared across calls!
+DFS explores one branch fully, then backtracks.
+Use DFS for: path finding, cycle detection, topological sort.`},
+
+{id:55,cat:'ds',diff:'medium',title:'Implement a simple hash map from scratch',
+code:`class HashMap:
+    def __init__(self, size=10):
+        self.size = size
+        self.table = [[] for _ in range(size)]
+
+    def _hash(self, key):
+        return hash(key) % self.size
+
+    def put(self, key, value):
+        index = self._hash(key)
+        for pair in self.table[index]:
+            if pair[0] == key:
+                pair[1] = value; return
+        self.table[index].append([key, value])
+
+    def get(self, key):
+        index = self._hash(key)
+        for pair in self.table[index]:
+            if pair[0] == key:
+                return pair[1]
+        return None
+
+hm = HashMap()
+hm.put("name", "Sanjai")
+print(hm.get("name"))  # "Sanjai"`,
+concept:`Hash function converts key to an index (bucket).
+Collision handling with chaining: each bucket holds a list of (key, value) pairs.
+Python's built-in dict does this (much more optimally) under the hood.
+Average O(1) get/put. Worst case O(n) if all keys hash to same bucket.`},
+];
+
+// ==================== APTITUDE DATA ====================
+const aptitudeData = [
+  {id:1, icon:'🔢', title:'Number System', sub:'HCF, LCM, divisibility',
+   formula:'HCF × LCM = Product of two numbers\nDivisibility by 9: sum of digits divisible by 9\nDivisibility by 3: sum of digits divisible by 3',
+   questions:[
+    {q:'Find HCF of 24 and 36.',opts:['6','12','8','18'],ans:1,exp:'Factors of 24: 1,2,3,4,6,8,12,24. Factors of 36: 1,2,3,4,6,9,12,18,36. HCF = 12.'},
+    {q:'LCM of 4 and 6 is?',opts:['12','24','6','8'],ans:0,exp:'LCM = product/HCF = 24/2 = 12. Or list multiples: 4→4,8,12; 6→6,12. First common = 12.'},
+    {q:'Is 111 divisible by 3?',opts:['Yes','No'],ans:0,exp:'Sum of digits: 1+1+1=3. 3 is divisible by 3, so 111 is divisible by 3.'},
+    {q:'HCF of 15 and 25?',opts:['5','15','25','3'],ans:0,exp:'15=3×5, 25=5×5. Common factor = 5. HCF=5.'}
+   ]},
+  {id:2, icon:'%', title:'Percentages', sub:'Of, increase, decrease',
+   formula:'X% of Y = (X/100)×Y\nPercentage change = (Change/Original)×100\nIf price increases by R%: new price = P×(1+R/100)',
+   questions:[
+    {q:'What is 15% of 200?',opts:['25','30','35','40'],ans:1,exp:'15/100 × 200 = 0.15 × 200 = 30.'},
+    {q:'A price increased from 500 to 600. What is the % increase?',opts:['15%','20%','25%','10%'],ans:1,exp:'Change=100, Original=500. % = (100/500)×100 = 20%.'},
+    {q:'60 is what percent of 240?',opts:['20%','25%','30%','15%'],ans:1,exp:'(60/240)×100 = 0.25×100 = 25%.'},
+    {q:'A discount of 20% on 800 gives?',opts:['640','600','700','660'],ans:0,exp:'Discount = 20% of 800 = 160. Price = 800-160 = 640.'}
+   ]},
+  {id:3, icon:'💰', title:'Profit & Loss', sub:'CP, SP, profit%, loss%',
+   formula:'Profit = SP - CP (when SP > CP)\nLoss = CP - SP (when CP > SP)\nProfit% = (Profit/CP)×100\nSP = CP×(1 + P%/100)',
+   questions:[
+    {q:'CP=400, SP=500. Profit%?',opts:['20%','25%','15%','30%'],ans:1,exp:'Profit=100. Profit% = (100/400)×100 = 25%.'},
+    {q:'An item bought at ₹600 sold at 10% profit. SP?',opts:['660','640','680','700'],ans:0,exp:'SP = 600×(1+10/100) = 600×1.1 = 660.'},
+    {q:'CP=800, loss%=5%. Find SP.',opts:['760','740','720','780'],ans:0,exp:'SP = 800×(1-5/100) = 800×0.95 = 760.'},
+    {q:'SP=880, profit=10%. Find CP.',opts:['800','820','840','860'],ans:0,exp:'CP = SP/(1+P/100) = 880/1.1 = 800.'}
+   ]},
+  {id:4, icon:'🏦', title:'Simple Interest', sub:'SI formula and variations',
+   formula:'SI = (P × R × T) / 100\nAmount = P + SI\nP = (SI×100)/(R×T)',
+   questions:[
+    {q:'P=1000, R=5%, T=3yr. SI?',opts:['100','150','200','175'],ans:1,exp:'SI=(1000×5×3)/100 = 15000/100 = 150.'},
+    {q:'SI=300, R=5%, T=3yr. Find P.',opts:['2000','1800','2400','1500'],ans:0,exp:'P=(300×100)/(5×3) = 30000/15 = 2000.'},
+    {q:'In how many years will ₹500 double at 10% SI?',opts:['10','8','12','5'],ans:0,exp:'SI=500. 500=(500×10×T)/100. T=10 years.'},
+    {q:'P=2000, T=2yr, Amount=2400. Rate?',opts:['10%','8%','12%','15%'],ans:0,exp:'SI=400. R=(400×100)/(2000×2)=10%.'}
+   ]},
+  {id:5, icon:'📈', title:'Compound Interest', sub:'CI formula and comparisons',
+   formula:'A = P×(1 + R/100)^T\nCI = A - P\nCI > SI for same P, R, T (when T>1)',
+   questions:[
+    {q:'P=1000, R=10%, T=2yr. CI?',opts:['200','210','220','190'],ans:1,exp:'A=1000×(1.1)²=1000×1.21=1210. CI=1210-1000=210.'},
+    {q:'CI for P=2000, R=5%, T=1yr (annually)?',opts:['100','200','150','50'],ans:0,exp:'A=2000×1.05=2100. CI=100. (Same as SI for 1 year)'},
+    {q:'Difference between CI and SI at 10% for 2 years on ₹1000?',opts:['10','20','15','25'],ans:0,exp:'SI=200. CI=210. Difference=10. Formula: P×(R/100)²=1000×0.01=10.'},
+    {q:'P=5000, R=20%, T=2yr. Amount?',opts:['7200','7000','6500','7500'],ans:0,exp:'A=5000×(1.2)²=5000×1.44=7200.'}
+   ]},
+  {id:6, icon:'⚖️', title:'Ratio & Proportion', sub:'Direct, inverse, compound',
+   formula:'a:b = c:d → a×d = b×c (cross product)\nIf a:b=2:3 and total=50, then a=20, b=30\nDirect: y∝x. Inverse: y∝1/x',
+   questions:[
+    {q:'A:B=2:3, total=100. Find A.',opts:['40','60','50','30'],ans:0,exp:'A=2/(2+3)×100=2/5×100=40.'},
+    {q:'If 6 workers do a job in 4 days, 8 workers do it in?',opts:['3 days','2 days','5 days','4 days'],ans:0,exp:'Inverse: workers×days=constant. 6×4=8×D. D=3.'},
+    {q:'Divide 180 in ratio 1:2:3.',opts:['30,60,90','60,60,60','45,60,75','20,60,100'],ans:0,exp:'Total parts=6. 180/6=30. Parts: 30,60,90.'},
+    {q:'A:B=3:5, B:C=2:4. Find A:C.',opts:['3:10','1:2','6:20','3:20'],ans:0,exp:'A:B=3:5, B:C=2:4. A:B:C=3×2:5×2:5×4=6:10:20=3:5:10. A:C=3:10.'}
+   ]},
+  {id:7, icon:'⏱️', title:'Time & Work', sub:'Men, days, efficiency',
+   formula:'Work = 1 job. Rate = 1/days.\nCombined rate = sum of individual rates\nDays = 1 / combined rate',
+   questions:[
+    {q:'A does a job in 10 days. B in 15 days. Together in?',opts:['6 days','5 days','8 days','4 days'],ans:0,exp:'Rate: A=1/10, B=1/15. Together=(1/10+1/15)=(3+2)/30=5/30=1/6. Days=6.'},
+    {q:'12 men do a job in 8 days. 6 men do it in?',opts:['16 days','12 days','18 days','24 days'],ans:0,exp:'Inverse: 12×8=6×D. D=16.'},
+    {q:'A is twice as efficient as B. B takes 12 days. Together?',opts:['4 days','3 days','6 days','8 days'],ans:0,exp:'A takes 6 days. Together: 1/6+1/12=3/12=1/4. Days=4.'},
+    {q:'A&B together: 12 days. A alone: 18 days. B alone?',opts:['36 days','24 days','30 days','20 days'],ans:0,exp:'B=1/12-1/18=(3-2)/36=1/36. B takes 36 days.'}
+   ]},
+  {id:8, icon:'🚗', title:'Time, Speed & Distance', sub:'Average speed, relative speed',
+   formula:'Speed = Distance / Time\nAverage Speed = 2S1×S2/(S1+S2) for same distance\nRelative speed (same dir) = S1-S2\nRelative speed (opp dir) = S1+S2',
+   questions:[
+    {q:'Distance=240km, Time=4hrs. Speed?',opts:['60km/h','50km/h','70km/h','80km/h'],ans:0,exp:'Speed=Distance/Time=240/4=60km/h.'},
+    {q:'A goes 30km/h and returns at 20km/h. Average speed?',opts:['24km/h','25km/h','26km/h','22km/h'],ans:0,exp:'Average=2×30×20/(30+20)=1200/50=24km/h.'},
+    {q:'Train 100m long passes a pole at 36km/h. Time taken?',opts:['10 sec','8 sec','12 sec','5 sec'],ans:0,exp:'36km/h=10m/s. Time=100/10=10 sec.'},
+    {q:'Two trains approach each other at 60 and 40km/h. Distance=200km. When do they meet?',opts:['2hrs','3hrs','2.5hrs','1.5hrs'],ans:0,exp:'Relative speed=100km/h. Time=200/100=2hrs.'}
+   ]},
+  {id:9, icon:'📊', title:'Averages', sub:'Mean, weighted average, changed averages',
+   formula:'Average = Sum / Count\nIf new item added: New sum = Old avg×N + New value\nMissing value = New avg×(N+1) - Old sum',
+   questions:[
+    {q:'Average of 5 numbers is 20. One number removed, avg becomes 18. Removed number?',opts:['28','26','30','32'],ans:0,exp:'Sum=100. New sum (4 nums)=72. Removed=100-72=28.'},
+    {q:'Average of 10, 20, 30, 40?',opts:['25','30','20','35'],ans:0,exp:'Sum=100. Avg=100/4=25.'},
+    {q:'Class avg=70. 5 students scored 80 avg, 15 scored what to keep overall 70?',opts:['66.67','65','68','70'],ans:0,exp:'Total=70×20=1400. 5 students=400. Remaining 15=(1400-400)/15=1000/15=66.67.'},
+    {q:'First 5 avg=10, next 5 avg=20. Overall avg?',opts:['15','12','18','14'],ans:0,exp:'Total=50+100=150. Count=10. Avg=150/10=15.'}
+   ]},
+  {id:10, icon:'👴', title:'Ages', sub:'Present, past, future age problems',
+   formula:'If present age = x: age n years ago = x-n, after n years = x+n\nRatio of ages now vs then → set up equations\nSolve simultaneous equations',
+   questions:[
+    {q:'Ravi is 3x old as Suresh. In 10 yrs, ratio=2:1. Ravi\'s age?',opts:['30','20','25','35'],ans:0,exp:'3x+10 / x+10 = 2. 3x+10=2x+20. x=10. Ravi=30.'},
+    {q:'Father is 30 yrs older than son. In 5 yrs, father will be 4x son. Father\'s age?',opts:['45','50','40','55'],ans:0,exp:'Son=s. F=s+30. s+30+5=4(s+5). s=5. Father=35+5? Let\'s recalc: 35=4×5+15? Father now=5+30=35.'},
+    {q:'A is 5 yrs older than B. Sum of ages = 55. A\'s age?',opts:['30','25','35','20'],ans:0,exp:'A=B+5. A+B=55. 2B+5=55. B=25. A=30.'},
+    {q:'Average age of 3 people is 25. If youngest is 20, avg of other two?',opts:['27.5','25','30','22.5'],ans:0,exp:'Total=75. Remaining 2 total=75-20=55. Avg=55/2=27.5.'}
+   ]},
+  {id:11, icon:'🧪', title:'Mixtures & Alligation', sub:'Mixing two concentrations',
+   formula:'Alligation rule: (d2-mean):(mean-d1) = cheaper:dearer\nFinal concentration = (m1×c1 + m2×c2)/(m1+m2)',
+   questions:[
+    {q:'Mix 20L of 30% acid with 30L of 20% acid. Final %?',opts:['24%','25%','22%','26%'],ans:0,exp:'Total acid=6+6=12L. Total=50L. %=12/50×100=24%.'},
+    {q:'Milk:water=3:1. Add 20L water to make ratio 3:2. Find original milk.',opts:['60L','45L','30L','40L'],ans:0,exp:'Let milk=3x, water=x. 3x/(x+20)=3/2. 6x=3x+60. x=20. Milk=60.'},
+    {q:'Sugar at ₹40/kg and ₹60/kg mixed to get ₹50/kg. Ratio?',opts:['1:1','2:1','1:2','3:1'],ans:0,exp:'Alligation: (60-50):(50-40)=10:10=1:1.'},
+    {q:'A vessel has 10L mixture of milk(7L) and water(3L). 5L removed, 5L milk added. Milk%?',opts:['80%','75%','85%','70%'],ans:3,exp:'Removed: 7/10×5=3.5L milk, 1.5L water. Remaining: 3.5+5=8.5L milk, 1.5L water. Milk%=8.5/10=85%.'}
+   ]},
+  {id:12, icon:'🎲', title:'Permutations & Combinations', sub:'Arrangement and selection',
+   formula:'nPr = n!/(n-r)! → arrangements\nnCr = n!/(r!×(n-r)!) → selections\nn! = n×(n-1)×...×1',
+   questions:[
+    {q:'How many ways can 3 people sit in 5 chairs?',opts:['60','120','30','20'],ans:0,exp:'5P3 = 5×4×3 = 60.'},
+    {q:'Select 3 from 6 people. Number of ways?',opts:['20','30','15','18'],ans:0,exp:'6C3 = 6!/(3!×3!) = 720/36 = 20.'},
+    {q:'Arrange letters of PYTHON. Count?',opts:['720','360','120','240'],ans:0,exp:'6 distinct letters. 6! = 720.'},
+    {q:'A committee of 2 men & 2 women from 4 men & 3 women?',opts:['18','12','24','15'],ans:0,exp:'4C2×3C2 = 6×3 = 18.'}
+   ]},
+  {id:13, icon:'🎰', title:'Probability', sub:'Basic, conditional, event types',
+   formula:'P(E) = Favourable outcomes / Total outcomes\nP(A or B) = P(A)+P(B)-P(A and B)\nP(not A) = 1 - P(A)',
+   questions:[
+    {q:'P(head) when tossing a coin?',opts:['1/2','1/4','1/3','2/3'],ans:0,exp:'Favourable=1 (head). Total=2 (H,T). P=1/2.'},
+    {q:'P(even) when rolling a die?',opts:['1/2','1/3','2/3','1/6'],ans:0,exp:'Even: 2,4,6 → 3 outcomes. Total=6. P=3/6=1/2.'},
+    {q:'From a deck, P(red king)?',opts:['1/26','1/13','2/52','1/52'],ans:0,exp:'Red kings=2 (hearts king, diamonds king). Total=52. P=2/52=1/26.'},
+    {q:'P(A)=0.4, P(B)=0.3, P(A∩B)=0.1. P(A∪B)?',opts:['0.6','0.7','0.5','0.8'],ans:0,exp:'P(A∪B)=0.4+0.3-0.1=0.6.'}
+   ]},
+  {id:14, icon:'📐', title:'Series & Sequences', sub:'AP, GP, number patterns',
+   formula:'AP: an = a + (n-1)d, Sum = n/2×(2a+(n-1)d)\nGP: an = a×r^(n-1), Sum = a×(r^n-1)/(r-1)',
+   questions:[
+    {q:'Next term: 2, 5, 8, 11, ?',opts:['14','13','15','16'],ans:0,exp:'AP with d=3. Next=11+3=14.'},
+    {q:'Sum of first 10 natural numbers?',opts:['55','45','50','60'],ans:0,exp:'n(n+1)/2 = 10×11/2 = 55.'},
+    {q:'Next term: 2, 6, 18, 54, ?',opts:['162','108','216','144'],ans:0,exp:'GP with r=3. Next=54×3=162.'},
+    {q:'Find missing: 1, 4, 9, 16, ?, 36',opts:['25','20','30','24'],ans:0,exp:'Squares: 1²,2²,3²,4²,5²,6². Missing = 5²=25.'}
+   ]},
+  {id:15, icon:'📉', title:'Data Interpretation', sub:'Tables, charts, graphs',
+   formula:'Read the graph carefully first\nCalculate % change, ratios, averages from given data\nAlways double-check what the question asks',
+   questions:[
+    {q:'Sales: Jan=100, Feb=150, Mar=120. Average?',opts:['123.3','130','125','120'],ans:0,exp:'(100+150+120)/3=370/3=123.3.'},
+    {q:'Revenue grew from 200 to 300. % growth?',opts:['50%','33%','25%','75%'],ans:0,exp:'Growth=100. % = (100/200)×100=50%.'},
+    {q:'Pie chart: 30% is 90 units. Total?',opts:['300','270','360','330'],ans:0,exp:'30% = 90. 100% = 90×100/30 = 300.'},
+    {q:'Bar shows A=400, B=600. Ratio A:B?',opts:['2:3','3:2','1:2','2:1'],ans:0,exp:'400:600 = 2:3.'}
+   ]},
+  {id:16, icon:'🧠', title:'Logical Reasoning', sub:'Coding, series, directions',
+   formula:'If A=1,B=2..Z=26: encode/decode patterns\nDirection: N-S-E-W. Clockwise: N→E→S→W\nBlood relations: track family tree carefully',
+   questions:[
+    {q:'PYTHON coded as QZUIPO. How is JAVA coded?',opts:['KBWB','KAWA','JBWB','KBWA'],ans:0,exp:'Each letter shifted +1. J→K, A→B, V→W, A→B = KBWB.'},
+    {q:'A walks 10m North, turns right 5m, turns right 10m. Direction from start?',opts:['East','West','South','North'],ans:0,exp:'Goes N then E then S (back to original latitude). Displacement is 5m East.'},
+    {q:'Odd one out: 2, 3, 5, 7, 11, 12, 13',opts:['12','11','13','3'],ans:0,exp:'12 is the only non-prime number in the list.'},
+    {q:'If + means ÷ and × means +, what is 20+5×3?',opts:['7','9','11','5'],ans:0,exp:'20÷5=4. 4+3=7.'}
+   ]},
+  {id:17, icon:'🩸', title:'Blood Relations', sub:'Family tree, coded relations',
+   formula:'M\'s son\'s daughter = M\'s granddaughter\nM\'s father\'s brother = M\'s uncle\nMother\'s brother = Maternal uncle\nFather\'s sister = Paternal aunt',
+   questions:[
+    {q:'A is B\'s father. B is C\'s brother. How is A related to C?',opts:['Father','Uncle','Grandfather','Brother'],ans:0,exp:'A is B\'s father. B and C are siblings. So A is also C\'s father.'},
+    {q:'P\'s mother\'s brother is Q. How is P related to Q?',opts:['Nephew/Niece','Son/Daughter','Cousin','Sibling'],ans:0,exp:'Q is P\'s maternal uncle. So P is Q\'s nephew (or niece).'},
+    {q:'X is Y\'s sister. Y is Z\'s mother. X is Z\'s?',opts:['Aunt','Mother','Cousin','Sister'],ans:0,exp:'X is Y\'s sister. Y is Z\'s mother. So X is Z\'s maternal aunt.'},
+    {q:'A\'s father\'s father is B. B\'s son\'s daughter is C. C is A\'s?',opts:['Sister','Cousin','Aunt','Niece'],ans:0,exp:'B is A\'s grandfather. B\'s son could be A\'s father or uncle. B\'s son\'s daughter = cousin to A.'}
+   ]},
+  {id:18, icon:'📏', title:'Mensuration', sub:'Area, perimeter, volume',
+   formula:'Rectangle: Area=l×b, Perimeter=2(l+b)\nCircle: Area=πr², Circumference=2πr\nCylinder: Volume=πr²h, CSA=2πrh\nTriangle: Area=½×base×height',
+   questions:[
+    {q:'Area of a circle with radius 7? (π=22/7)',opts:['154','144','176','132'],ans:0,exp:'Area=22/7×7×7=22×7=154.'},
+    {q:'Perimeter of rectangle: l=8, b=5?',opts:['26','30','24','20'],ans:0,exp:'Perimeter=2(8+5)=2×13=26.'},
+    {q:'Volume of cylinder r=3, h=7? (π=22/7)',opts:['198','196','200','188'],ans:0,exp:'V=22/7×9×7=22×9=198.'},
+    {q:'Area of triangle base=10, height=6?',opts:['30','60','15','40'],ans:0,exp:'Area=½×10×6=30.'}
+   ]}
+];
+
+// ==================== STATE ====================
+let currentCategory = 'all';
+let currentDiff = 'all';
+let currentSearch = '';
+let done = JSON.parse(localStorage.getItem('similarme_done') || '{}');
+
+// ==================== INIT ====================
+function init(){
+  renderQuestions();
+  renderAptGrid();
+  updateCounts();
+  updateProgress();
+}
+
+function saveDone(){
+  localStorage.setItem('similarme_done', JSON.stringify(done));
+  updateProgress();
+}
+
+// ==================== PAGES ====================
+function showPage(name){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.main-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  const tabs = ['home','python','aptitude'];
+  document.querySelectorAll('.main-tab')[tabs.indexOf(name)].classList.add('active');
+  if(name==='python') renderQuestions();
+}
+
+// ==================== RENDER QUESTIONS ====================
+function getFiltered(){
+  return pythonQuestions.filter(q=>{
+    const catMatch = currentCategory==='all' || q.cat===currentCategory;
+    const diffMatch = currentDiff==='all' || q.diff===currentDiff;
+    const searchMatch = !currentSearch || q.title.toLowerCase().includes(currentSearch.toLowerCase());
+    return catMatch && diffMatch && searchMatch;
+  });
+}
+
+function renderQuestions(){
+  const filtered = getFiltered();
+  const container = document.getElementById('questionsContainer');
+  const meta = document.getElementById('sectionMeta');
+  meta.textContent = `${filtered.length} questions`;
+  if(!filtered.length){
+    container.innerHTML='<div class="empty">No questions match. Try adjusting filters.</div>';
+    return;
+  }
+  container.innerHTML = filtered.map((q,idx)=>{
+    const isDone = done[q.id];
+    return `<div class="q-card${isDone?' done':''}" id="qcard-${q.id}">
+      <div class="q-header" onclick="toggleQ(${q.id})">
+        <span class="q-num">#${String(idx+1).padStart(2,'0')}</span>
+        <span class="q-title">${q.title}<span class="diff-badge diff-${q.diff}">${q.diff}</span></span>
+        <div class="q-actions">
+          <button class="done-btn${isDone?' marked':''}" onclick="event.stopPropagation();markDone(${q.id})">${isDone?'✓ Done':'Mark done'}</button>
+          <span class="chevron" id="chev-${q.id}">▾</span>
+        </div>
+      </div>
+      <div class="q-body" id="qbody-${q.id}">
+        <div class="q-tabs">
+          <button class="q-tab active" onclick="showQTab(${q.id},'code',this)">💻 Solution</button>
+          <button class="q-tab" onclick="showQTab(${q.id},'concept',this)">💡 Concept</button>
+        </div>
+        <pre class="show" id="code-${q.id}">${escHtml(q.code)}</pre>
+        <div class="concept-box" id="concept-${q.id}">${q.concept.replace(/\n/g,'<br>')}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function escHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+function toggleQ(id){
+  const body = document.getElementById('qbody-'+id);
+  const chev = document.getElementById('chev-'+id);
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  chev.classList.toggle('open', !isOpen);
+}
+
+function showQTab(id, tab, btn){
+  btn.closest('.q-body').querySelectorAll('.q-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('code-'+id).classList.toggle('show', tab==='code');
+  document.getElementById('concept-'+id).classList.toggle('show', tab==='concept');
+}
+
+function markDone(id){
+  done[id] = !done[id];
+  saveDone();
+  renderQuestions();
+}
+
+function filterCategory(cat){
+  currentCategory = cat;
+  document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  const titles = {all:'All Questions',strings:'Strings',arrays:'Arrays & Lists',dicts:'Dict & Sets',loops:'Loops & Logic',oop:'OOP & Classes',ds:'Data Structures'};
+  document.getElementById('sectionTitle').textContent = titles[cat];
+  renderQuestions();
+}
+
+function filterDiff(diff, btn){
+  currentDiff = diff;
+  document.querySelectorAll('#diffTags .tag').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  renderQuestions();
+}
+
+function searchQuestions(){
+  currentSearch = document.getElementById('searchInput').value;
+  renderQuestions();
+}
+
+function updateCounts(){
+  const cats = ['strings','arrays','dicts','loops','oop','ds'];
+  document.getElementById('cnt-all').textContent = pythonQuestions.length;
+  cats.forEach(c=>{
+    const el = document.getElementById('cnt-'+c);
+    if(el) el.textContent = pythonQuestions.filter(q=>q.cat===c).length;
+  });
+}
+
+function updateProgress(){
+  const total = pythonQuestions.length;
+  const doneCount = Object.values(done).filter(Boolean).length;
+  const pct = total ? Math.round(doneCount/total*100) : 0;
+  document.getElementById('globalProgress').textContent = `${doneCount} / ${total} done`;
+  document.getElementById('homeScore').textContent = doneCount;
+  const hBar = document.getElementById('homeProgressBar');
+  const pyBar = document.getElementById('pyProgressBar');
+  if(hBar) hBar.style.width = pct+'%';
+  if(pyBar) pyBar.style.width = pct+'%';
+  const txt = `${doneCount} of ${total} questions done (${pct}%)`;
+  const el1 = document.getElementById('homeProgressText');
+  const el2 = document.getElementById('pyProgressText');
+  if(el1) el1.textContent = txt;
+  if(el2) el2.textContent = txt;
+}
+
+// ==================== APTITUDE ====================
+function renderAptGrid(){
+  const grid = document.getElementById('aptGrid');
+  grid.innerHTML = aptitudeData.map(a=>`
+    <div class="apt-concept-card" onclick="showAptDetail(${a.id})">
+      <div class="apt-icon">${a.icon}</div>
+      <div class="apt-concept-title">${a.title}</div>
+      <div class="apt-concept-sub">${a.sub}</div>
+      <div class="apt-concept-count">${a.questions.length} practice questions →</div>
+    </div>`).join('');
+  document.getElementById('aptGrid').style.display='grid';
+  document.getElementById('aptDetail').classList.remove('show');
+}
+
+function showAptGrid(){
+  document.getElementById('aptGrid').style.display='grid';
+  document.getElementById('aptDetail').classList.remove('show');
+}
+
+function showAptDetail(id){
+  const a = aptitudeData.find(x=>x.id===id);
+  document.getElementById('aptGrid').style.display='none';
+  const detail = document.getElementById('aptDetail');
+  detail.innerHTML = `
+    <div class="apt-detail-title">${a.icon} ${a.title}</div>
+    <div style="color:var(--text3);font-size:13px;margin-bottom:8px;">${a.sub}</div>
+    <div class="apt-formula"><strong style="color:var(--text2);font-size:12px;text-transform:uppercase;letter-spacing:.06em;">Formula / Key Concept</strong><br><br>${a.formula.replace(/\n/g,'<br>')}</div>
+    <div style="font-size:14px;font-weight:600;margin-bottom:12px;">Practice Questions</div>
+    ${a.questions.map((q,i)=>`
+      <div class="apt-q-card" id="aptq-${id}-${i}">
+        <div class="apt-q-text"><strong>${i+1}.</strong> ${q.q}</div>
+        <div class="apt-options">
+          ${q.opts.map((o,j)=>`<button class="apt-opt" onclick="answerApt(${id},${i},${j},${q.ans})">${String.fromCharCode(65+j)}) ${o}</button>`).join('')}
+        </div>
+        <div class="apt-explain" id="aptexp-${id}-${i}">✅ ${q.exp}</div>
+      </div>`).join('')}`;
+  detail.classList.add('show');
+}
+
+function answerApt(aid, qid, chosen, correct){
+  const card = document.getElementById('aptq-'+aid+'-'+qid);
+  const opts = card.querySelectorAll('.apt-opt');
+  opts.forEach((o,i)=>{
+    o.disabled=true;
+    if(i===correct) o.classList.add('correct');
+    else if(i===chosen) o.classList.add('wrong');
+  });
+  document.getElementById('aptexp-'+aid+'-'+qid).classList.add('show');
+}
+
+init();
+</script>
+</body>
+</html>
